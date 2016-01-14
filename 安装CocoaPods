@@ -1,2 +1,130 @@
 1>安装 Ruby 开发环境
+步骤1 － 安装 RVM
+　　　　$ curl -L https://get.rvm.io | bash -s stable
+        期间可能会问你sudo管理员密码，以及自动通过homebrew安装依赖包，等待一段时间后就可以成功安装好 RVM。
+        然后，载入 RVM 环境（新开 Termal 就不用这么做了，会自动重新载入的）
+　　　　$ source ~/.rvm/scripts/rvm
+        检查一下是否安装正确
+　　　  $ rvm -v
+　　　　rvm 1.22.17 (stable) by Wayne E. Seguin <wayneeseguin@gmail.com>, Michal Papis <mpapis@gmail.com> [https://rvm.io/]
+步骤2 － 用 RVM 安装 Ruby 环境
+        列出已知的ruby版本
+        $ rvm list known
+        可以选择现有的rvm版本来进行安装（下面以rvm 2.0.0版本的安装为例）
+　　　　$ rvm install 2.0.0
+        同样继续等待漫长的下载，编译过程，完成以后，Ruby, Ruby Gems 就安装好了。
+另附：
+       查询已经安装的ruby
+　　   $ rvm list
+       卸载一个已安装版本 
+       $ rvm remove 1.9.2
+步骤3 － 设置 Ruby 版本
+       RVM 装好以后，需要执行下面的命令将指定版本的 Ruby 设置为系统默认版本
+　　　 $ rvm 2.0.0 --default
+       同样，也可以用其他版本号，前提是你有用 rvm install 安装过那个版本
+这个时候你可以测试是否正确
+　　　 $ ruby -v
+　　　 ruby 2.0.0p247 (2013-06-27 revision 41674) [x86_64-darwin13.0.0]
+　　　 $ gem -v
+　　　 2.1.6
+　　　 这有可能是因为Ruby的默认源使用的是cocoapods.org，国内访问这个网址有时候会有问题，网上的一种解决方案是将远替换成淘宝的，替换方式如下：
+　　   $gem source -r https://rubygems.org/
+　　　 $ gem source -a https://ruby.taobao.org
+       要想验证是否替换成功了，可以执行：
+　　　 $ gem sources -l  
+       正常的输出结果：
+　　　CURRENT SOURCES　　　　　　　　　　　　
+　　　http://ruby.taobao.org/　　　　　　　　　　　　
+      到这里就已经把Ruby环境成功的安装到了Mac OS X上，接下来就可以进行相应的开发使用了
 2>安装CocoaPods
+第一步:升级 ruby
+      sudo gem update --system
+第二步:安装CocoaPods时我们要访问cocoapods.org，用淘宝的RubyGems镜像来代替官方版本，执行以下命令：
+      $ gem sources --remove https://rubygems.org/
+      //等有反应之后再敲入以下命令
+      $ gem sources -a http://ruby.taobao.org/
+第三步:为了验证你的Ruby镜像是并且仅是taobao，可以用以下命令查看：
+      $ gem sources -l
+      验证成功:
+      只有在终端中出现下面文字才表明你上面的命令是成功的：
+      *** CURRENT SOURCES ***
+      http://ruby.taobao.org/
+$ gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
+$ gem sources -l
+*** CURRENT SOURCES ***
+https://ruby.taobao.org
+# 请确保只有 ruby.taobao.org
+$ gem install rails
+
+第四步:安装Cocoapods,在终端输入命令
+      $ sudo gem install cocoapods
+      等上十几秒钟，CocoaPods就可以在你本地下载并且安装好了，不再需要其他设置。
+      
+3>使用方法
+1.使用search命令搜索类库名
+
+      $ pod search AFNetworking
+我们看到AFN有好多版本，最新的版本
+2.打开xcode,新建一个工程，工程名为Cocoapods使用。使用命令cd，cd后面跟的是工程目录名，可以直接拉进来，
+回车后，输入命令创建Podfile文件,
+      $ touch Podfile
+      $ vim Podfile
+      platform :ios, '7.0'
+      pod "AFNetworking", "2.5.0" 这两句文字的意思是，当前AFNetworking支持的iOS最高版本是iOS 7.0, 要下载的AFNetworking版本是2.5.0。
+      在编辑完后按 esc,然后按":",这个时候输入wq保存退出。
+
+3.这时候，你就可以利用CocoPods下载AFNetworking类库了。还是在终端中的当前项目目录下，运行以下命令：
+      $ pod install 
+
+4.这个时候，会看到多了一个.xcworkspace工程，以后打开项目就用 CocoapodsSample.xcworkspace 打开，而不是之前的.xcodeproj文件。
+
+
+5.更新pod命令
+      $ pod update
+      
+6.其他
+      pod ‘AFNetworking’      //不显式指定依赖库版本，表示每次都获取最新版本
+      pod ‘AFNetworking’,  ‘2.0’     //只使用2.0版本
+      pod ‘AFNetworking’, ‘>2.0′     //使用高于2.0的版本
+      pod ‘AFNetworking’, ‘>=2.0′     //使用大于或等于2.0的版本
+      pod ‘AFNetworking’, ‘<2.0′     //使用小于2.0的版本
+      pod ‘AFNetworking’, ‘<=2.0′     //使用小于或等于2.0的版本
+      pod ‘AFNetworking’, ‘~>0.1.2′     //使用大于等于0.1.2但小于0.2的版本，相当于>=0.1.2并且<0.2.0
+      pod ‘AFNetworking’, ‘~>0.1′     //使用大于等于0.1但小于1.0的版本
+      pod ‘AFNetworking’, ‘~>0′     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本
+7.参照
+http://www.cnblogs.com/jys509/p/4839803.html
+http://www.cnblogs.com/daguo/p/4097263.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
