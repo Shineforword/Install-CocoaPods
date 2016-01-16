@@ -1,0 +1,11 @@
+实用问题的解决
+1>问题描述:github下载的Demo，很多时候使用到CocoaPods，有的时候因为依赖关系或者版本问题不能编译运行。
+          出现例如The sandbox is not sync with the Podfile.lock问题时候
+          diff: /../Podfile.lock: No such file or directory 
+          diff: Manifest.lock: No such file or directory 
+          error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.` 
+ 解决方法:关闭当前的工作空间，删除掉文件夹中的workspace，
+          然后重新pod install，install完成之后，
+          通过workspace打开工作空间，clean+build即可，如下所示
+ 使用命令:rm -rf MyProject.xcworkspace 
+          pod install 
