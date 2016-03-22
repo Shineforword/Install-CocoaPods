@@ -9,3 +9,8 @@
           通过workspace打开工作空间，clean+build即可，如下所示
  使用命令:rm -rf MyProject.xcworkspace 
           pod install 
+2>问题描述:/Users/../Library/Developer/Xcode/DerivedData/E_Express-gemyaavfpqvsybfohblzbzslpmde/Build/Intermediates/
+           E_Express.build/Debug-iphonesimulator/E_Express.build/Script-2C06D36450B9479EB57CC352.sh: 
+           line 2: /Users/../Downloads/Works/E_express/E_Express/Pods/Target Support Files/
+           Pods/Pods-frameworks.sh: No such file or directory
+  解决方法:打开项目，找到 Build Phase 下面的 Copy Pods Resource 和 Embeded Pods Frameworks ，删除（先备份防止出问题!!!）
