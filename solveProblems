@@ -18,3 +18,5 @@
   解决方法:sudo gem install -n /usr/local/bin cocoapods  
   如果pod install 或 pod update 卡在 Updating local specs repositories
   执行:pod install --verbose --no-repo-update 进行下载
+4>问题描述:svn未能提交上的代码图片的处理方法(与pod无关😄)
+  解决方法:svn st | awk '{if($1="?"){ if(match($0,"@")){print $2"@"}else{print $2} } }' | xargs svn add 执行命令,然后重新提交
